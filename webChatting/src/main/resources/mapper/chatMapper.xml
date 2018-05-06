@@ -5,7 +5,5 @@
   
 <mapper namespace="com.web.chat.mapper.chatRoomMapper">
 
-	<select id="getTime" resultType="string">
-	</select>
 
 </mapper>
