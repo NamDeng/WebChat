@@ -1,30 +1,31 @@
 package com.web.chat.persistence;
 
-import javax.inject.Inject;
-
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.web.chat.domain.ChatUser;
+import com.web.chat.domain.ChatRoom;
+import com.web.chat.domain.UserHistory;
 
 @Repository
 public class ChatRoomDaoImpl implements ChatRoomDAO {
 
-	@Inject
+	@Autowired
 	private SqlSession sqlSession;
-	
-	private static final String namespace = "com.web.chat.mapper.chatMapper";
+
+	private static final String namespace = "com.web.chat.mapper.chatRoomMapper";
 
 	@Override
-	public void makeChatRoom() {
+	public void make(ChatRoom room) {
+		sqlSession.insert(namespace + ".makeChatRoom", room);
 	}
 
 	@Override
-	public void joinChatRoom(ChatUser user) {
-		
+	public void join(UserHistory user) {
+		sqlSession.insert(namespace + ".joinUser", user);
 	}
 
 	@Override
-	public void quitChatRoom(ChatUser user) {
+	public void quit(UserHistory user) {
 	}
 }

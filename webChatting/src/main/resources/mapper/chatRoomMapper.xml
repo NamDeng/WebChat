@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.web.chat.mapper.chatRoomMapper">
+	
+	<insert id="makeChatRoom" parameterType="com.web.chat.domain.ChatRoom" useGeneratedKeys="true" keyProperty="roomId">
+		insert into chatroom (title) values (#{title})
+	</insert>
+	
+	<insert id="joinUser" parameterType="com.web.chat.domain.UserHistory">
+		insert into chatroom_history (nickName, room_id) values (#{nickName}, #{roomId})
+	</insert>
+	
+</mapper>
