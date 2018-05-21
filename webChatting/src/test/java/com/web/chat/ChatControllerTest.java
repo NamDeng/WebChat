@@ -19,9 +19,9 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations= {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
-public class SampleControllerTest {
+public class ChatControllerTest {
 
-	private static final Logger logger = LoggerFactory.getLogger(SampleControllerTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(ChatControllerTest.class);
 	
 	@Inject
 	private WebApplicationContext wac;
@@ -35,10 +35,10 @@ public class SampleControllerTest {
 	}
 	
 	@Test
-	public void testHome() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/chat")
-				.param("title", "title")
-				.param("nickName", "nickName")
-				.param("avatar", "avatar"));
+	public void MakeChatRoomTest() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.post("/chat/room")
+				.param("title", "채팅방입니다.11")
+				.param("nickName", "가나다라마바사zeze")
+				.param("avatar", "on"));
 	}
 }

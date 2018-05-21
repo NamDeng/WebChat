@@ -20,7 +20,7 @@ public class ChatRoomDaoTest {
 	private ChatRoomDAO dao;
 	
 	@Test
-	public void testSelect() {
+	public void makeChatRoomTest() {
 	}
 
 }
