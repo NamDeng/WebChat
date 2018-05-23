@@ -6,11 +6,18 @@
 <mapper namespace="com.web.chat.mapper.chatRoomMapper">
 	
 	<insert id="makeChatRoom" parameterType="com.web.chat.domain.ChatRoom" useGeneratedKeys="true" keyProperty="roomId">
-		insert into chatroom (title) values (#{title})
+		INSERT INTO chatroom (title) 
+		VALUES (#{title})
 	</insert>
 	
 	<insert id="joinUser" parameterType="com.web.chat.domain.UserHistory">
-		insert into chatroom_history (nickName, room_id) values (#{nickName}, #{roomId})
+		INSERT INTO chatroom_history (nickName, room_id) 
+		VALUES (#{nickName}, #{roomId})
 	</insert>
+	
+	<select id="getListAll" resultType="com.web.chat.domain.ChatRoom">
+		SELECT room_id roomId, title
+		FROM chatroom
+	</select>
 	
 </mapper>

@@ -1,5 +1,7 @@
 package com.web.chat.persistence;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,5 +29,10 @@ public class ChatRoomDaoImpl implements ChatRoomDAO {
 
 	@Override
 	public void quit(UserHistory user) {
+	}
+
+	@Override
+	public List<ChatRoom> getListAll() {
+		return sqlSession.selectList(namespace + ".getListAll");
 	}
 }

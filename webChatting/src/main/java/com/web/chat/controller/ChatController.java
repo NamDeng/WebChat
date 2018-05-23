@@ -1,5 +1,7 @@
 package com.web.chat.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.web.chat.domain.ChatRoom;
 import com.web.chat.service.ChatRoomService;
 
 /**
@@ -26,13 +29,11 @@ public class ChatController {
 	@Resource(name="chatRoomService")
 	ChatRoomService chatRoomService;
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@GetMapping("")
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView("home");
-
+		
+		mv.addObject("roomList", chatRoomService.getCurrentChatRoomList());
 		return mv;
 	}
 
@@ -43,6 +44,7 @@ public class ChatController {
 			@RequestParam("avatar") String avatar) {
 
 		final ModelAndView mv = new ModelAndView("chat/usr.chat");
+		
 		chatRoomService.makeChatRoom(title, nickName);
 		return mv;
 	}

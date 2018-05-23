@@ -1,5 +1,7 @@
 package com.web.chat.persistence;
 
+import java.util.List;
+
 import com.web.chat.domain.ChatRoom;
 import com.web.chat.domain.UserHistory;
 
@@ -22,4 +24,11 @@ public interface ChatRoomDAO {
 	 * @param user
 	 */
 	public void quit(UserHistory user);
+	
+	/**
+	 * 개설된 채팅방 목록을 가져온다.
+	 * @param user
+	 * @return 
+	 */
+	public List<ChatRoom> getListAll();
 }

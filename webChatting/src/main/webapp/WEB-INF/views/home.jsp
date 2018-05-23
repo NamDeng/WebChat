@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/default.css"></c:url>" >
 	<link rel="stylesheet" type="text/css" href='<c:url value="/css/semantic.css"></c:url>' >
 	<script src="<c:url value="/js/jquery-3.3.1.min.js"></c:url>"></script>
+	<script src="<c:url value="/js/sockjs.min.js"></c:url>"></script>
 	<script src="<c:url value="/js/semantic.js"></c:url>"></script>
 </head>
 <body>
@@ -17,37 +18,25 @@
 					<button id="makeChatBtn" class="ui secondary button">채팅방 개설</button>
 				</div>
 			</header>
-			<div class="ui middle aligned divided list">
-				<div class="item">
-					<div class="content">
-						<a id="chat_id1">하남시 맛집 공유해요</a>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<a id="">스프링 프레임워크 스터디 채팅방입니다.</a>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<a>리액트js 스터디 채팅방입니다.</a>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<a>ES6 스터디 채팅방입니다.</a>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<a>반응형웹 스터디 채팅방입니다.</a>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<a>머신 러닝 스터디 채팅방입니다.</a>
-					</div>
-				</div>
+			<div id="contentArea" class="ui middle aligned divided list">
+			<c:choose>
+				<c:when test="${not empty roomList}">
+					<c:forEach var="list" items="${roomList}">
+						<div class="item">
+							<div class="content">
+								<a id="chat_id${list.roomId }" onclick="showModal(this);">${list.title}</a>
+							</div>
+						</div>		
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<div class="item">
+						<div class="content">
+							<a>개설된 채팅방이 없습니다.</a>
+						</div>
+					</div>	
+				</c:otherwise>
+			</c:choose>
 			</div>
 		</div>
 	</div>
@@ -133,14 +122,14 @@
 			$(".ui.modal").modal('show');
 		});
 		
-		const joinChat = document.getElementById("chat_id1");
-		joinChat.addEventListener('click', (event) => {
+		function showModal(p){
+			console.log(p);
 			$(modalHeader).text('채팅방 참여');
 			$(modalSubmit).text('참여하기');
 			$(modalSubmit).data('id', 'join');
 			$(title).hide();
 			$(".ui.modal").modal('show');
-		});
+		}
 		
 		function validateForm(flag) {
 			const avatar = $('radio[name="avatar"]:checked').length; 
