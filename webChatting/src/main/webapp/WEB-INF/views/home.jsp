@@ -115,19 +115,20 @@
 		
 		const makeChat = document.getElementById("makeChatBtn");
 		makeChat.addEventListener('click', (e) => {
-			$(modalHeader).text('채팅방 개설');
-			$(modalSubmit).text('만들기');
-			$(modalSubmit).data('id', 'make');
-			$(title).show();
+			modalHeader.innerHTML = '채팅방 개설';
+			modalSubmit.innerHTML = '만들기';
+			modalSubmit.dataset.id = 'make';
+			title.style.display = 'block';
+
 			$(".ui.modal").modal('show');
 		});
 		
 		function showModal(p){
-			console.log(p);
-			$(modalHeader).text('채팅방 참여');
-			$(modalSubmit).text('참여하기');
-			$(modalSubmit).data('id', 'join');
-			$(title).hide();
+			modalHeader.innerHTML = '채팅방 참여';
+			modalSubmit.innerHTML = '참여하기';
+			modalSubmit.dataset.id = 'join';
+			title.style.display = 'none';
+			
 			$(".ui.modal").modal('show');
 		}
 		
