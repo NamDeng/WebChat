@@ -33,8 +33,14 @@ public interface ChatRoomDAO {
 	public List<ChatRoom> getListAll();
 	
 	/**
-	 * 
+	 * 채팅방 접속인원 리스트를 가져온다.
 	 * @return
 	 */
 	public List<UserHistory> getUserListInChatRoom(long roomId);
+
+	/**
+	 * 현재 채팅방 정보를 가져온다.
+	 * @return
+	 */
+	public ChatRoom getCurrentChatRoom(long roomId);
 }

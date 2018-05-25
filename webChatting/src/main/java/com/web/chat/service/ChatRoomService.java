@@ -37,4 +37,8 @@ public class ChatRoomService {
 	public List<UserHistory> getUserListInChatRoom(long roomId) {
 		return chatRoomDao.getUserListInChatRoom(roomId);
 	}
+	
+	public ChatRoom getCurrentChatRoom(long roomId) {
+		return chatRoomDao.getCurrentChatRoom(roomId);
+	}
 }

@@ -15,13 +15,28 @@
 	</insert>
 	
 	<select id="getListAll" resultType="com.web.chat.domain.ChatRoom">
-		SELECT room_id roomId, title
+		SELECT 
+			room_id roomId, 
+			title
 		FROM chatroom
 	</select>
 	
 	<select id="getUserListInChatRoom" parameterType="long" resultType="com.web.chat.domain.UserHistory">
-		SELECT history_id historyId, nickName, avatar_type avatarType, room_id roomId, join_date joinDate
+		SELECT 
+			history_id historyId, 
+			nickName, 
+			avatar_type avatarType, 
+			room_id roomId, 
+			join_date joinDate
 		FROM chatroom_history
+		WHERE room_id = #{roomId}
+	</select>
+	
+	<select id="getCurrentChatRoom" parameterType="long" resultType="com.web.chat.domain.ChatRoom">
+		SELECT 
+			room_id roomId, 
+			title
+		FROM chatroom
 		WHERE room_id = #{roomId}
 	</select>
 </mapper>

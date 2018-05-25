@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.web.chat.domain.ChatRoom;
 import com.web.chat.domain.UserHistory;
@@ -37,40 +39,49 @@ public class ChatController {
 
 	@GetMapping("")
 	public ModelAndView home() {
-		ModelAndView mv = new ModelAndView("home");
+		final ModelAndView mav = new ModelAndView("home");
 		
-		mv.addObject("roomList", chatRoomService.getCurrentChatRoomList());
-		return mv;
+		mav.addObject("roomList", chatRoomService.getCurrentChatRoomList());
+		return mav;
 	}
 
 	@PostMapping("/room")
 	public ModelAndView makeChatRoom(
 			@RequestParam("title") String title,
 			@RequestParam("nickName") String nickName, 
-			@RequestParam("avatar") int avatarType) {
+			@RequestParam("avatar") int avatarType,
+			SessionStatus status) {
 
-		ChatRoom room = chatRoomService.makeChatRoom(title);
-		UserHistory user = chatRoomService.joinChatRoom(nickName, avatarType, room.getRoomId());
-		List<UserHistory> userList = chatRoomService.getUserListInChatRoom(room.getRoomId());
+		final ChatRoom room = chatRoomService.makeChatRoom(title);
+		final UserHistory user = chatRoomService.joinChatRoom(nickName, avatarType, room.getRoomId());
+		final List<UserHistory> userList = chatRoomService.getUserListInChatRoom(room.getRoomId());
 		
-		final ModelAndView mv = new ModelAndView("chat/usr.chat");
-		mv.addObject("currentUser", user);
-		mv.addObject("userList", userList);
-		return mv;
+		final ModelAndView mav = new ModelAndView("chat/usr.chat");
+		mav.addObject("room", room);
+		mav.addObject("currentUser", user);
+		mav.addObject("userList", userList);
+		
+		status.isComplete();
+		return mav;
 	}
 	
 	@PostMapping("/room/{roomId}")
 	public ModelAndView joinChatRoom(
 			@PathVariable Long roomId,
 			@RequestParam("nickName") String nickName, 
-			@RequestParam("avatar") int avatarType) {
+			@RequestParam("avatar") int avatarType,
+			SessionStatus status) {
 
-		UserHistory user = chatRoomService.joinChatRoom(nickName, avatarType, roomId);
-		List<UserHistory> userList = chatRoomService.getUserListInChatRoom(roomId);
+		final ChatRoom room = chatRoomService.getCurrentChatRoom(roomId);
+		final UserHistory user = chatRoomService.joinChatRoom(nickName, avatarType, roomId);
+		final List<UserHistory> userList = chatRoomService.getUserListInChatRoom(roomId);
 
-		final ModelAndView mv = new ModelAndView("chat/usr.chat");
-		mv.addObject("currentUser", user);
-		mv.addObject("userList", userList);
-		return mv;
+		final ModelAndView mav = new ModelAndView("chat/usr.chat");
+		mav.addObject("room", room);
+		mav.addObject("currentUser", user);
+		mav.addObject("userList", userList);
+		
+		status.isComplete();
+		return mav;
 	}
 }

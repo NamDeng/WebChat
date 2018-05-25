@@ -14,7 +14,7 @@
 		<div id="wrap">
 			<header>
 				<div id="header-div">
-					<h1 class="title">웹 채팅 프로그램</h1>
+					<h1 class="title">${room.title }</h1>
 					<button id="quitBtn" class="ui secondary button">나가기</button>
 				</div>
 			</header>
@@ -57,28 +57,28 @@
 							      <i class="dropdown icon"></i>
 							      <div class="default text">Saved Contacts</div>
 							      <div class="menu">
-							        <div class="item" data-value="jenny" data-text="Jenny">
-							          <img class="ui mini avatar image" src="<c:url value="/images/avatar/girl.jpeg"></c:url>">
+							        <div class="item">
+							          <img class="ui mini avatar image" src="<c:url value="/images/avatar/avatar1.jpeg"></c:url>">
 							          Jenny Hess
 							        </div>
-							        <div class="item" data-value="elliot" data-text="Elliot">
-							        	<img class="ui mini avatar image" src="<c:url value="/images/avatar/girl2.jpeg"></c:url>">
+							        <div class="item">
+							        	<img class="ui mini avatar image" src="<c:url value="/images/avatar/avatar2.jpeg"></c:url>">
 							          Elliot Fu
 							        </div>
-							        <div class="item" data-value="stevie" data-text="Stevie">
-							        	<img class="ui mini avatar image" src="<c:url value="/images/avatar/man.jpeg"></c:url>">
+							        <div class="item">
+							        	<img class="ui mini avatar image" src="<c:url value="/images/avatar/avatar3.jpeg"></c:url>">
 							          Stevie Feliciano
 							        </div>
-							        <div class="item" data-value="christian" data-text="Christian">
-							        	<img class="ui mini avatar image" src="<c:url value="/images/avatar/man2.jpeg"></c:url>">
+							        <div class="item">
+							        	<img class="ui mini avatar image" src="<c:url value="/images/avatar/avatar4.jpeg"></c:url>">
 							          Christian
 							        </div>
-							        <div class="item" data-value="matt" data-text="Matt">
-							        	<img class="ui mini avatar image" src="<c:url value="/images/avatar/man3.jpeg"></c:url>">
+							        <div class="item">
+							        	<img class="ui mini avatar image" src="<c:url value="/images/avatar/avatar5.jpeg"></c:url>">
 							          Matt
 							        </div>
-							        <div class="item" data-value="justen" data-text="Justen">
-							        	<img class="ui mini avatar image" src="<c:url value="/images/avatar/man4.jpeg"></c:url>">
+							        <div class="item">
+							        	<img class="ui mini avatar image" src="<c:url value="/images/avatar/avatar6.jpeg"></c:url>">
 							          Justen Kitsune
 							        </div>
 							      </div>
