@@ -6,7 +6,6 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/default.css"></c:url>" >
 	<link rel="stylesheet" type="text/css" href='<c:url value="/css/semantic.css"></c:url>' >
 	<script src="<c:url value="/js/jquery-3.3.1.min.js"></c:url>"></script>
-	<script src="<c:url value="/js/sockjs.min.js"></c:url>"></script>
 	<script src="<c:url value="/js/semantic.js"></c:url>"></script>
 </head>
 <body>
@@ -24,7 +23,7 @@
 					<c:forEach var="list" items="${roomList}">
 						<div class="item">
 							<div class="content">
-								<a id="chat_id${list.roomId }" onclick="showModal(this);">${list.title}</a>
+								<a id="chat_id${list.roomId }" onclick="showJoinModal(${list.roomId });">${list.title}</a>
 							</div>
 						</div>		
 					</c:forEach>
@@ -42,38 +41,38 @@
 	</div>
 	<footer>
 	</footer>
-	<div class="ui modal">
+	<div id="joinModal" class="ui modal">
 	 	<i class="window close icon"></i>
-		<div id="modal_header" class="chat modal header">
-		채팅방 만들기
+		<div class="chat modal header">
+		채팅방 참여
 		</div>
-			<form name="makeFrm" class="ui form" action="/chat/room" method="post">
+			<form name="joinFrm" class="ui form" method="post">
 			  <div class="image content">
 			  	<div>
 			  		<div class="ui medium image">
 				    	<div class="avatar">
-				    		<img src='<c:url value="/images/avatar/girl.jpeg"></c:url>'>
-				    		<input type="radio" name="avatar">
+				    		<img src='<c:url value="/images/avatar/avatar1.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" checked="checked" value="1">
 				    	</div>
 				      	<div class="avatar">
-				      		<img src='<c:url value="/images/avatar/girl2.jpeg"></c:url>'>
-				    		<input type="radio" name="avatar">
+				      		<img src='<c:url value="/images/avatar/avatar2.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="2">
 				    	</div>
 				    	<div class="avatar">
-				    		<img src='<c:url value="/images/avatar/man.jpeg"></c:url>'>
-				    		<input type="radio" name="avatar">
+				    		<img src='<c:url value="/images/avatar/avatar3.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="3">
 				    	</div>
 				    	<div class="avatar">
-				    		<img src='<c:url value="/images/avatar/man2.jpeg"></c:url>'>
-				    		<input type="radio" name="avatar">
+				    		<img src='<c:url value="/images/avatar/avatar4.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="4">
 				    	</div>
 				    	<div class="avatar">
-				    		<img src='<c:url value="/images/avatar/man3.jpeg"></c:url>'>
-				    		<input type="radio" name="avatar">
+				    		<img src='<c:url value="/images/avatar/avatar5.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="5">
 				    	</div>
 				    	<div class="avatar">
-				    		<img src='<c:url value="/images/avatar/man4.jpeg"></c:url>'>
-				    		<input type="radio" name="avatar">
+				    		<img src='<c:url value="/images/avatar/avatar6.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="6">
 				    	</div>
 			   	 </div>
 			   	 <div class="ui radio checkbox">
@@ -82,77 +81,89 @@
 			  	</div>
 			  </div>
 		  <div class="ui fluid input">
-		  	<input id="nickName" type="text" name="nickName" maxlength="30" placeholder="닉네임을 입력하세요.">
-		  </div>
-		  <div class="ui fluid input">
-		  	<input id="title" type="text" name="title" maxlength="30" placeholder="채팅방 제목을 입력하세요.">
+		  	<input type="text" name="nickName" maxlength="30" placeholder="닉네임을 입력하세요.">
 		  </div>
 		  <div class="actions">
-		    <button id="modal_submit" class="ui primary button">
+		    <button id="joinBtn" class="ui primary button">
+		       참여하기
+		    </button>
+		  </div>
+		</form>
+	</div>
+	<div id="makeModal" class="ui modal">
+	 	<i class="window close icon"></i>
+		<div class="chat modal header">
+		채팅방 만들기
+		</div>
+			<form name="makeFrm" class="ui form" action="/chat/room" method="post">
+			  <div class="image content">
+			  	<div>
+			  		<div class="ui medium image">
+				    	<div class="avatar">
+				    		<img src='<c:url value="/images/avatar/avatar1.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="1" checked="checked" >
+				    	</div>
+				      	<div class="avatar">
+				      		<img src='<c:url value="/images/avatar/avatar2.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="2">
+				    	</div>
+				    	<div class="avatar">
+				    		<img src='<c:url value="/images/avatar/avatar3.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="3">
+				    	</div>
+				    	<div class="avatar">
+				    		<img src='<c:url value="/images/avatar/avatar4.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="4">
+				    	</div>
+				    	<div class="avatar">
+				    		<img src='<c:url value="/images/avatar/avatar5.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="5">
+				    	</div>
+				    	<div class="avatar">
+				    		<img src='<c:url value="/images/avatar/avatar6.jpeg"></c:url>'>
+				    		<input type="radio" name="avatar" value="6">
+				    	</div>
+			   	 </div>
+			   	 <div class="ui radio checkbox">
+					 	<input type="radio" name="avatar">
+				   </div>
+			  	</div>
+			  </div>
+		  <div class="ui fluid input">
+		  	<input type="text" name="nickName" maxlength="30" placeholder="닉네임을 입력하세요.">
+		  </div>
+		  <div class="ui fluid input">
+		  	<input type="text" name="title" maxlength="30" placeholder="채팅방 제목을 입력하세요.">
+		  </div>
+		  <div class="actions">
+		    <button id="makeBtn" class="ui primary button">
 		       만들기
 		    </button>
 		  </div>
 		</form>
 	</div>
 	<script>
-		const modalHeader = document.getElementById("modal_header");
-		const title = document.getElementById("title");
-
-		const modalSubmit = document.getElementById("modal_submit");
-		modalSubmit.addEventListener('click', (e) => {
-			const flag = $(modalSubmit).data('id');
-			/* if(validateForm(flag) === false) {
-				return false;
-			} */
-			
-			if(flag === 'make') {
-				// 채팅방 개설 액션 실행
+		const joinModal = document.getElementById("joinModal")
+		const make = document.getElementById("makeBtn");
+		make.addEventListener('click', (e) => {
 				document.makeFrm.submit();
-			} else {
-				// 채팅방 참여 액션 실행
-			}
+		});
+		
+		const join = document.getElementById("joinBtn");
+		join.addEventListener('click', (e) => {
+				document.joinFrm.action = "/chat/room/" + joinModal.dataset.id; 
+				document.joinFrm.submit();
 		});
 		
 		const makeChat = document.getElementById("makeChatBtn");
 		makeChat.addEventListener('click', (e) => {
-			modalHeader.innerHTML = '채팅방 개설';
-			modalSubmit.innerHTML = '만들기';
-			modalSubmit.dataset.id = 'make';
-			title.style.display = 'block';
-
-			$(".ui.modal").modal('show');
+			$(document.getElementById("makeModal")).modal('show');
 		});
 		
-		function showModal(p){
-			modalHeader.innerHTML = '채팅방 참여';
-			modalSubmit.innerHTML = '참여하기';
-			modalSubmit.dataset.id = 'join';
-			title.style.display = 'none';
-			
-			$(".ui.modal").modal('show');
-		}
-		
-		function validateForm(flag) {
-			const avatar = $('radio[name="avatar"]:checked').length; 
-			const title = document.getElementById("title");
-			const nickName = document.getElementById("nickName");
-			
-			if(avatar < 1) {
-				alert("아바타를 선택해 주세요.");
-				return false;
-			} 
-			
-			if(title == '' || title == null) {
-				alert("닉네임을 입력해주세요.");
-				return false;
-			} 
-			
-			if(flag === 'make') {
-				if(title == '' || title == null) {
-					alert("채팅방 제목을 입력해주세요.");
-					return false;
-				}
-			}
+		function showJoinModal(roomId){
+			joinModal.dataset.id = roomId;
+
+			$(joinModal).modal('show');
 		}
 	</script>
 </body>

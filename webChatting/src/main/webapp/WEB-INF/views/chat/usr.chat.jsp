@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/default.css"></c:url>" >
 	<link rel="stylesheet" type="text/css" href='<c:url value="/css/semantic.css"></c:url>' >
 	<script src="<c:url value="/js/jquery-3.3.1.min.js"></c:url>"></script>
+	<script src="<c:url value="/js/sockjs.min.js"></c:url>"></script>
 	<script src="<c:url value="/js/semantic.js"></c:url>"></script>
 </head>
 <body>
@@ -20,30 +21,25 @@
 			<div>
 				<div class="chat join div">
 					<div class="ui middle aligned divided list">
-				  <div class="item">
-				    <img class="ui avatar image" src='<c:url value="/images/avatar/girl.jpeg"></c:url>'>
-				    <div class="content">
-				      Lena
-				    </div>
-				  </div>
-				  <div class="item">
-				    <img class="ui avatar image" src='<c:url value="/images/avatar/girl2.jpeg"></c:url>'>
-				    <div class="content">
-				      Lindsay
-				    </div>
-				  </div>
-				  <div class="item">
-				    <img class="ui avatar image" src='<c:url value="/images/avatar/man.jpeg"></c:url>'>
-				    <div class="content">
-				      Mark
-				    </div>
-				  </div>
-				  <div class="item">
-				    <img class="ui avatar image" src='<c:url value="/images/avatar/man2.jpeg"></c:url>'>
-				    <div class="content">
-				      Molly
-				    </div>
-				  </div>
+					<c:choose>
+						<c:when test="${not empty userList }">
+							<c:forEach var="user" items="${userList }">
+								<div class="item">
+							    <img class="ui avatar image" src='<c:url value="/images/avatar/avatar${user.avatarType }.jpeg"></c:url>'>
+							    <div class="content">
+							    	${user.nickName }
+							    </div>
+							  </div>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<div class="item">
+							    <div class="content">
+							      	참여자가 없습니다.
+							    </div>
+							  </div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				</div>
 				<div class="chat read div">

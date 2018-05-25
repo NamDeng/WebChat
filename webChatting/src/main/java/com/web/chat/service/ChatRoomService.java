@@ -15,18 +15,26 @@ public class ChatRoomService {
 	@Autowired
 	ChatRoomDaoImpl chatRoomDao;
 	
-	public void makeChatRoom(String title, String nickName) {
-		final ChatRoom room = new ChatRoom.Builder()
-			.title(title).build();
+	public ChatRoom makeChatRoom(String title) {
+		final ChatRoom room = new ChatRoom.Builder().title(title).build();
 		chatRoomDao.make(room);
 		
+		return room;
+	}
+	
+	public UserHistory joinChatRoom(String nickName, int avatarType, long roomId) {
 		final UserHistory user = new UserHistory.Builder()
-			.nickName(nickName)
-			.roomId(room.getRoomId()).build();
+				.nickName(nickName).roomId(roomId).avatarType(avatarType).build();
 		chatRoomDao.join(user);
+
+		return user;
 	}
 	
 	public List<ChatRoom> getCurrentChatRoomList() {
 		return chatRoomDao.getListAll();
+	}
+	
+	public List<UserHistory> getUserListInChatRoom(long roomId) {
+		return chatRoomDao.getUserListInChatRoom(roomId);
 	}
 }

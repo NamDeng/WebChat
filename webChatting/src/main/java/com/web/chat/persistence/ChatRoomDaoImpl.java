@@ -35,4 +35,9 @@ public class ChatRoomDaoImpl implements ChatRoomDAO {
 	public List<ChatRoom> getListAll() {
 		return sqlSession.selectList(namespace + ".getListAll");
 	}
+
+	@Override
+	public List<UserHistory> getUserListInChatRoom(long roomId) {
+		return sqlSession.selectList(namespace + ".getUserListInChatRoom", roomId);
+	}
 }

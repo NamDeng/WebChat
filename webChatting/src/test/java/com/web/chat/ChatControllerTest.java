@@ -41,4 +41,11 @@ public class ChatControllerTest {
 				.param("nickName", "가나다라마바사zeze")
 				.param("avatar", "on"));
 	}
+	
+	@Test
+	public void joinChatRoomTest() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.post("/chat/room/12")
+				.param("nickName", "익명123123")
+				.param("avatar", "on"));
+	}
 }

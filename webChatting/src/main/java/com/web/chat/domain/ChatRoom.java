@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ChatRoom {
 
-	private int roomId;
+	private long roomId;
 	private String title;
 	private int userCount;
 	private Date regDate;
@@ -21,13 +21,13 @@ public class ChatRoom {
 	}
 
 	public static class Builder {
-		private int roomId;
+		private long roomId;
 		private String title;
 		private int userCount;
 		private Date regDate;
 		private Date updateDate;
 
-		public Builder roomId(int roomId) {
+		public Builder roomId(long roomId) {
 			this.roomId = roomId;
 			return this;
 		}
@@ -57,11 +57,11 @@ public class ChatRoom {
 		}
 	}
 
-	public int getRoomId() {
+	public long getRoomId() {
 		return roomId;
 	}
 
-	public void setRoomId(int roomId) {
+	public void setRoomId(long roomId) {
 		this.roomId = roomId;
 	}
 

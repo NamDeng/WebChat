@@ -31,4 +31,10 @@ public interface ChatRoomDAO {
 	 * @return 
 	 */
 	public List<ChatRoom> getListAll();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<UserHistory> getUserListInChatRoom(long roomId);
 }

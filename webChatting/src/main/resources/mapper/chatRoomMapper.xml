@@ -4,15 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.web.chat.mapper.chatRoomMapper">
-	
 	<insert id="makeChatRoom" parameterType="com.web.chat.domain.ChatRoom" useGeneratedKeys="true" keyProperty="roomId">
 		INSERT INTO chatroom (title) 
 		VALUES (#{title})
 	</insert>
 	
-	<insert id="joinUser" parameterType="com.web.chat.domain.UserHistory">
-		INSERT INTO chatroom_history (nickName, room_id) 
-		VALUES (#{nickName}, #{roomId})
+	<insert id="joinUser" parameterType="com.web.chat.domain.UserHistory" useGeneratedKeys="true" keyProperty="historyId">
+		INSERT INTO chatroom_history (nickName, avatar_type, room_id) 
+		VALUES (#{nickName}, #{avatarType}, #{roomId})
 	</insert>
 	
 	<select id="getListAll" resultType="com.web.chat.domain.ChatRoom">
@@ -20,4 +19,9 @@
 		FROM chatroom
 	</select>
 	
+	<select id="getUserListInChatRoom" parameterType="long" resultType="com.web.chat.domain.UserHistory">
+		SELECT history_id historyId, nickName, avatar_type avatarType, room_id roomId, join_date joinDate
+		FROM chatroom_history
+		WHERE room_id = #{roomId}
+	</select>
 </mapper>
