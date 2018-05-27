@@ -18,31 +18,22 @@ public class ChatRoomDaoImpl implements ChatRoomDAO {
 	private static final String namespace = "com.web.chat.mapper.chatRoomMapper";
 
 	@Override
-	public void make(ChatRoom room) {
+	public void makeChatRoom(ChatRoom room) {
 		sqlSession.insert(namespace + ".makeChatRoom", room);
 	}
-
+	
 	@Override
-	public void join(UserHistory user) {
-		sqlSession.insert(namespace + ".joinUser", user);
+	public ChatRoom getUsingChatRoom(long roomId) {
+		return sqlSession.selectOne(namespace + ".getUsingChatRoom", roomId);
 	}
 
 	@Override
-	public void quit(UserHistory user) {
-	}
-
-	@Override
-	public List<ChatRoom> getListAll() {
-		return sqlSession.selectList(namespace + ".getListAll");
+	public List<ChatRoom> getUsingChatRoomList() {
+		return sqlSession.selectList(namespace + ".getUsingChatRoomList");
 	}
 
 	@Override
 	public List<UserHistory> getUserListInChatRoom(long roomId) {
 		return sqlSession.selectList(namespace + ".getUserListInChatRoom", roomId);
-	}
-
-	@Override
-	public ChatRoom getCurrentChatRoom(long roomId) {
-		return sqlSession.selectOne(namespace + ".getCurrentChatRoom", roomId);
 	}
 }

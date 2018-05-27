@@ -11,36 +11,24 @@ public interface ChatRoomDAO {
 	/**
 	 * 채팅방을 만든다
 	 */
-	public void make(ChatRoom room);
+	public void makeChatRoom(ChatRoom room);
 	
 	/**
-	 * 채팅방에 들어간다
-	 * @param user
+	 * 현재 채팅방 정보를 가져온다.
+	 * @return
 	 */
-	public void join(UserHistory user);
-	
-	/**
-	 * 채팅방을 나간다
-	 * @param user
-	 */
-	public void quit(UserHistory user);
+	public ChatRoom getUsingChatRoom(long roomId);
 	
 	/**
 	 * 개설된 채팅방 목록을 가져온다.
 	 * @param user
 	 * @return 
 	 */
-	public List<ChatRoom> getListAll();
+	public List<ChatRoom> getUsingChatRoomList();
 	
 	/**
 	 * 채팅방 접속인원 리스트를 가져온다.
 	 * @return
 	 */
 	public List<UserHistory> getUserListInChatRoom(long roomId);
-
-	/**
-	 * 현재 채팅방 정보를 가져온다.
-	 * @return
-	 */
-	public ChatRoom getCurrentChatRoom(long roomId);
 }
