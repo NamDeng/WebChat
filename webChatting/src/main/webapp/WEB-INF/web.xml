@@ -7,20 +7,27 @@
   metadata-complete="true">
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+		<param-value>
+			/WEB-INF/config/root-context.xml,/WEB-INF/config/websocket-context.xml
+		</param-value>
 	</context-param>
+	
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
+	<!-- DispatcherServlet은 클라이언트의 요청을 전달받는 서블릿으로서, 
+	컨트롤러나 뷰와 같은 스프링 MVC의 구성 요소를 이용하여 클라이언트에게 서비스를 제공 -->	
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+			<param-value>/WEB-INF/config/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<!-- 웹채팅 구현을 위한 비동기 설정 추가 -->
+		<async-supported>true</async-supported>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
@@ -44,14 +51,4 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-	<!-- XSS 방지 -->
-	<!-- <filter>
-		<filter-name>HTMLTagFilter</filter-name>
-		<filter-class>infrastructure.web.servlet.filter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>HTMLTagFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping> -->
 </web-app>

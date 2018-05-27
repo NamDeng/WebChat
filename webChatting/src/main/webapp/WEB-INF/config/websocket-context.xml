@@ -10,7 +10,7 @@
  <bean id="chatHandler" class="com.web.chat.websocket.WebSocketHandler" />
 
  <websocket:handlers>
- 	<websocket:mapping handler="chatHandler" path="/chat/room" />
+ 	<websocket:mapping handler="chatHandler" path="/chat/websocket" />
   <websocket:sockjs />
  </websocket:handlers>
 
