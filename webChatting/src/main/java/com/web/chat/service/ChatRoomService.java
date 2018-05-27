@@ -16,7 +16,7 @@ public class ChatRoomService {
 	ChatRoomDaoImpl chatRoomDao;
 
 	public ChatRoom makeChatRoom(String title) {
-		final ChatRoom room = new ChatRoom.Builder().title(title).build();
+		final ChatRoom room = ChatRoom.builder().title(title).build();
 		chatRoomDao.makeChatRoom(room);
 
 		return room;

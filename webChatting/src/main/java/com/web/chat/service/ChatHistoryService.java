@@ -13,10 +13,13 @@ public class ChatHistoryService {
 	ChatHistoryDAOImpl chatHistoryDao;
 	
 	public UserHistory joinChatRoom(String nickName, int avatarType, long roomId) {
-		final UserHistory user = new UserHistory.Builder()
-				.nickName(nickName).roomId(roomId).avatarType(avatarType).build();
+		final UserHistory user = UserHistory.builder().nickName(nickName).roomId(roomId).avatarType(avatarType).build();
 		chatHistoryDao.joinByUser(user);
 
 		return user;
+	}
+	
+	public void quitChatRoom(UserHistory user) {
+		chatHistoryDao.quitByUser(user);
 	}
 }
