@@ -1,30 +1,45 @@
 package com.web.chat.websocket;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.web.chat.domain.Message;
+
 /**
  * WebSocketHandler 인터페이스 메소드 구현
  */
+@Component
 public class WebSocketHandler extends TextWebSocketHandler {
 
-	private List<WebSocketSession> sessionList = new ArrayList<>();
-	private static Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
 
+	private final Map<Long, List<WebSocketSession>> roomMap;
+	private final Map<String, WebSocketSession> sessionMap;
+	private final ObjectMapper objectMapper;
+
+	public WebSocketHandler() {
+		this.objectMapper = new ObjectMapper();
+		this.roomMap = new HashMap<>();
+		this.sessionMap = new HashMap<>(); 
+	}
+	
 	/**
 	 * 클라이언트 연결
 	 */
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		sessionList.add(session);
+		sessionMap.put(session.getId(), session);
 		
 		System.out.println("[websocket] client connection. : " + session.getId());
 		logger.info("[websocket] client connection. id : {}", session.getId());
@@ -35,14 +50,15 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	 */
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		logger.info("{} client text message send : {}", session.getId(), message.getPayload());
-		System.out.println("send message. : " + message.getPayload());
+
+		final String payload = message.getPayload();
+		final Message msg = objectMapper.readValue(payload, Message.class);
 		
-		System.out.println();
-//		for (WebSocketSession webSocketSession : sessionList) {
-//			webSocketSession.sendMessage(new TextMessage(session.getPrincipal().getName() + "|" + message.getPayload()));
-//		}
-		session.sendMessage(new TextMessage(session.getPrincipal().getName() + "|" + message.getPayload()));
+		if (msg.getType().equals("send")) {
+			sendMessage(msg);
+		} else if(msg.getType().equals("join")) {
+			setMessageTarget(msg, session);
+		}
 	}
 	
 	/**
@@ -57,8 +73,73 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	 */
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		sessionList.remove(session);
-		System.out.println("[websocket] client connection. : " + session.getId());
-		logger.info("{} client disconnect.", session.getId());
+		sessionMap.remove(session.getId());
+	}
+	
+	/**
+	 * 채팅방 그룹 설정
+	 * @param msg
+	 * @param session
+	 */
+	private void setMessageTarget(final Message msg, WebSocketSession session) {
+		List<WebSocketSession> group = null;
+		if(isExistGroup(msg)) {
+			group = getExistGroup(msg);
+		} else {
+			group = getNewGroup();
+		}
+		group.add(session);
+		roomMap.put(msg.getRoomId(), group);
+	}
+
+	/**
+	 * 
+	 * @param msg
+	 * @param session
+	 */
+	private List<WebSocketSession> getExistGroup(final Message msg) {
+		return roomMap.get(msg.getRoomId());
+	}
+
+	/**
+	 * 
+	 * @param msg
+	 * @param session
+	 */
+	private List<WebSocketSession> getNewGroup() {
+		return new ArrayList<WebSocketSession>();
+	}
+
+	/**
+	 * 채팅방 그룹 생성 여부
+	 * @param msg
+	 * @return
+	 */
+	private boolean isExistGroup(final Message msg) {
+		return roomMap.containsKey(msg.getRoomId());
+	}
+	
+	/**
+	 * 채팅방별 메세지 전송
+	 * @param msg
+	 * @throws Exception
+	 */
+	private void sendMessage(final Message msg) throws Exception {
+		final List<WebSocketSession> group = getMessageGroup(msg.getRoomId());
+		
+		for (WebSocketSession webSocketSession : group) {
+			if(webSocketSession.isOpen()) {
+				webSocketSession.sendMessage(new TextMessage(msg.getMessage()));
+			}
+		}
+	}
+
+	/**
+	 * 메세지 전송 대상 목록을 가져온다.
+	 * @param roomId
+	 * @return
+	 */
+	private List<WebSocketSession> getMessageGroup(long roomId) {
+		return roomMap.get(roomId);
 	}
 }

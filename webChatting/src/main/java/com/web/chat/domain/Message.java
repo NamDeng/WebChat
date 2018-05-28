@@ -1,9 +1,6 @@
 package com.web.chat.domain;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,12 +10,11 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @ToString
-public class ChatRoom {
+public class Message {
 	private long roomId;
-	private String title;
-	private int userCount;
-	private Date regDate;
-	private Date updateDate;
+	private long historyId;
+	private String type;
+	private String message;
 }
+

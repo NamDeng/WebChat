@@ -45,11 +45,11 @@
 				<div class="chat read div">
 					<div class="ui form">
 					  <div class="field">
-					    <textarea readonly></textarea>
+					    <textarea id="chatView" rows="30" readonly></textarea>
 					  </div>
 					</div>
 					<div class="chat input div">
-						<form class="ui form">
+						<div class="ui form">
 							<div class="chat whisper div">
 								<div class="field">
 							    <div class="ui fluid multiple search selection dropdown">
@@ -87,10 +87,10 @@
 							</div>
 							<div class="chat text div">
 								<div class="field">
-							    <input type="text" name="chat_text" placeholder="상대방에게 전달할 텍스트를 입력하세요.">
+							    <input type="text" id="message" name="message" placeholder="상대방에게 전달할 텍스트를 입력하세요." onkeydown="pressEnterKey();">
 							  </div>
 							</div>
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -99,10 +99,38 @@
 	<footer>
 	</footer>
 	<script>
-		const quit = document.getElementById("quitBtn");
-		quit.addEventListener('click', (event) => {
+		const chatView = document.getElementById("chatView");
+		const message = document.getElementById("message");
+		const socket = new SockJS("<c:url value="/chat/websocket"/>");
+		socket.onopen = function() {
+			chatView.value = '${currentUser.nickName}님 환영합니다.\n';
+			
+			socket.send(JSON.stringify({roomId:${room.roomId}, type:'join', historyId:${currentUser.historyId}}));
+			socket.onmessage = function(e) {
+				chatView.value = chatView.value + '\n' + e.data;
+			};
+		}
+		socket.onclose = function() {
+			chatView.value = '\n연결이 끊겼습니다.';
+			quitChatRoom(${room.roomId}, ${currentUser.historyId}});
+		};
 
-		});
+		function pressEnterKey(){
+			if(event.keyCode == 13) {
+				if(message.value != null && message.value != '') {
+					sendMessage();
+				}
+			}
+		}
+		
+		function sendMessage(){
+			socket.send(JSON.stringify({roomId:${room.roomId}, type:'send', message:'[${currentUser.nickName}] : ' + message.value}));
+			message.value = '';
+		}
+		
+		function quitChatRoom() {
+			
+		}
 	</script>
 </body>
 </html>

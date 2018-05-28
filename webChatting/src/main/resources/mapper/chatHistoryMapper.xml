@@ -8,4 +8,9 @@
 		INSERT INTO chatroom_history (nickName, avatar_type, room_id) 
 		VALUES (#{nickName}, #{avatarType}, #{roomId})
 	</insert>
+	
+	<delete id="quitByUser" parameterType="com.web.chat.domain.UserHistory">
+		DELETE FROM chatroom_history 
+		WHERE history_id = #{historyId}
+	</delete>
 </mapper>
