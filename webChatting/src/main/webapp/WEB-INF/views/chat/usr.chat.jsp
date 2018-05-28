@@ -112,7 +112,7 @@
 		}
 		socket.onclose = function() {
 			chatView.value = '\n연결이 끊겼습니다.';
-			quitChatRoom(${room.roomId}, ${currentUser.historyId}});
+			quitChatRoom(${room.roomId}, ${currentUser.historyId});
 		};
 
 		function pressEnterKey(){

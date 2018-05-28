@@ -9,6 +9,13 @@
 	<script src="<c:url value="/js/semantic.js"></c:url>"></script>
 </head>
 <body>
+	<script>
+	function showJoinModal(roomId){
+		joinModal.dataset.id = roomId;
+
+		$(joinModal).modal('show');
+	}
+	</script>
 	<div class="ui container">
 		<div id="wrap">
 			<header>
@@ -145,26 +152,20 @@
 	<script>
 		const joinModal = document.getElementById("joinModal")
 		const make = document.getElementById("makeBtn");
-		make.addEventListener('click', (e) => {
+		make.addEventListener('click', function(e) {
 				document.makeFrm.submit();
 		});
 		
 		const join = document.getElementById("joinBtn");
-		join.addEventListener('click', (e) => {
+		join.addEventListener('click', function(e) {
 				document.joinFrm.action = "/chat/room/" + joinModal.dataset.id; 
 				document.joinFrm.submit();
 		});
 		
 		const makeChat = document.getElementById("makeChatBtn");
-		makeChat.addEventListener('click', (e) => {
+		makeChat.addEventListener('click', function(e) {
 			$(document.getElementById("makeModal")).modal('show');
 		});
-		
-		function showJoinModal(roomId){
-			joinModal.dataset.id = roomId;
-
-			$(joinModal).modal('show');
-		}
 	</script>
 </body>
 </html>
